@@ -1,0 +1,38 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+.venv*/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local runtime / caches
+storage/
+db/
+*.sqlite
+*.db
+*.sqlite3
+
+# External data symlink (points outside this repo) — recreate locally
+data
+
+# Generated artifacts
+output/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,105 @@
+Senior Data Engineer (Full-time)
+About the job
+Pregnancy, childbirth, and early parenthood bring about a lot of changes. And with each phase, new questions arise: small ones, big ones, practical ones, emotional ones. Glimmer helps to see more clearly what's happening right now, what's important, and what's right.
+We combine in-depth expert knowledge, a digital midwife consultation service, and practical tips in one app. This way, customers will find reliable answers, prenatal and postpartum recovery classes, and support all in one place. Accessible, compassionate, and tailored.
+Glimmer is covered by over 80 health insurance providers and supports customers from their child's first heartbeat to their first steps. So they can navigate this journey with greater clarity, confidence, and peace of mind.
+Glimmer is a Berlin-based start-up with around 40 employees. As our Senior Data Engineer, you'll be part of the Data & Engineering team and play a key role in building the data foundations that help us turn insight into better care for every family we support.
+Tasks
+Role Overview:
+
+We're looking for a motivated and highly autonomous Data Engineer to build and own the foundations of our data platform. You'll enjoy this role if you like ownership, can design reliable and scalable data pipelines, and care about giving every team clean, trustworthy data. You'll also be handling sensitive health data, so we need someone who treats privacy and security as core engineering principles.
+What Success Looks Like:
+Over the last seven years, and through several acquisitions, our data landscape has grown into a patchwork of systems, pipelines and workarounds. Your biggest impact will be replacing that complexity with a single, modern data warehouse and a platform that is simple, well documented and easy to build on.
+In practice, success means:
+
+Within your first 3 months: You've mapped our current data landscape, including legacy systems, inherited sources from acquisitions, pipelines and dependencies, and you've shared a clear target architecture and migration plan that the team supports.
+
+Within 6 months: The foundations of the new data warehouse are live, the most important data sources are migrated, and the first legacy pipelines and tools have been retired.
+
+Within 12 months: The new warehouse is our single source of truth. Redundant systems are gone, core metrics are defined consistently across the business, and teams trust the data without double-checking it.
+
+Throughout: Data is easier to find, understand and use. Onboarding a new source or answering a new question takes days, not weeks, and the platform is documented well enough that it doesn't depend on any one person.
+
+
+
+What You'll Do:
+
+Design, build and maintain scalable ETL/ELT pipelines using SQL, Python and PostgreSQL
+
+Own and evolve our cloud data infrastructure on AWS (primarily EC2 & RDS), balancing performance, reliability, security and cost.
+
+Own the end-to-end engineering of our automated insurance invoicing pipeline, so that reimbursement, claim status and financial data flow accurately and reliably into downstream systems
+
+Build and maintain ingestion pipelines that connect product, web, CRM and advertising platforms (e.g. Amplitude, Meta, Google Ads, HubSpot) into a unified data model
+
+Develop and maintain integrations with internal and external tools and SaaS products via REST APIs
+
+Design and implement data models and warehouse schemas that support business reporting, product analytics, experimentation and regulatory requirements
+
+Put data quality, testing, monitoring and alerting in place so problems are caught before they reach stakeholders
+
+Orchestrate and automate workflows, and apply software engineering best practices (version control, CI/CD, code review, documentation)
+
+Make sure data is handled in line with GDPR, health data privacy requirements, and internal policies, including access control, pseudonymisation and retention policies
+
+Work closely with Marketing, Product and Finance to understand their data needs and deliver datasets that feed tools such as AWS Quicksight
+
+Share knowledge and coach team members on data concepts, tooling and best practices
+
+
+
+Requirements
+Your Profile:
+
+3+ years' experience in Data Engineering or a closely related role, ideally in a startup or scale-up
+
+Strong hands-on skills in SQL, Python, PostgreSQL and AWS (EC2/RDS)
+
+A track record of building and owning data pipelines and warehouse architectures from scratch in fast-moving environments
+
+Experience with API integrations, workflow automation and version control (GitHub)
+
+Solid understanding of data modelling, data quality practices and pipeline observability
+
+Awareness of data privacy and security, ideally with experience handling sensitive or regulated data (GDPR)
+
+Nice to have: experience with orchestration tools (e.g. Airflow, Dagster), transformation frameworks (e.g. dbt), infrastructure as code, or BI tools like AWS Quicksight
+
+A high degree of autonomy, curiosity and ownership
+
+Fluent in English, German is a plus
+
+
+
+Benefits
+Why Glimmer
+
+Real Ownership from Day 1: You'll own the architecture and foundations of our data platform, not just execute a roadmap, but shape it.
+
+Growth Through Challenge, Not Stagnation: You'll build deep expertise in modern data architecture, regulated health data handling, and cross-functional platform ownership, while coaching others along the way.
+
+Close to the Business: You'll work closely with Marketing, Product and Finance, seeing firsthand how clean, trustworthy data shapes real decisions across the company.
+
+Purpose: You're building the data backbone for a digital health platform that supports women and families through pregnancy, birth and early parenthood.
+
+Mentoring & Team Culture: You'll be part of a motivated, diverse team that shares knowledge and supports each other.
+
+Community: Regular team breakfasts and fixed celebrations throughout the year keep the team connected.
+
+Work-Life & Perks: 30 days of paid vacation, an Urban Sports Club membership and 3 months remote work allowance are waiting for you.
+
+
+
+Our Hiring Process
+
+Screening Call (15 min) A quick intro to get to know each other.
+
+First Interview (45 min) A deeper conversation about your experience and the role.
+
+Case Study (4 hours) A practical task that reflects the kind of work you'd be doing with us.
+
+Case Study Interview (1.5 hours) We'll walk through your solution together.
+
+Final Round (1 hour) Meet the team and get a feel for how we work.
+Benefits found in job post
+Medical insurance
