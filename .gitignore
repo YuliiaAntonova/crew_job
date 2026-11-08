@@ -25,9 +25,6 @@ db/
 *.db
 *.sqlite3
 
-# External data symlink (points outside this repo) — recreate locally
-data
-
 # Generated artifacts
 output/
 

@@ -1,27 +1,37 @@
 # crew_job — resume prepare → tailor for a vacancy
 
-Two-step local pipeline:
+Two-step local pipeline built on **LlamaIndex** (RAG + LlamaCloud Parse) and **CrewAI** (multi-agent tailor).
 
-1. **Prepare** — parse your PDF resume into structured CV JSON/Markdown.
-2. **Tailor (L7)** — multi-agent crewAI run that rewrites the resume for a job posting.
+### What you provide (inputs)
+
+| Input | Path (example) | Role |
+|---|---|---|
+| **Resume PDF** | `data/Yuliia_Antonova_resume - data_ai.pdf` | source CV as PDF |
+| **CV JSON schema** | `data/cv.json` | empty/structured template the RAG fill must match |
+| Job posting text | `input/job_posting.txt` | vacancy body for the tailor step (plain text) |
+
+Everything else under `input/` / `output/` is **generated** by the notebooks (filled CV, tailored resume, HTML/PDF previews).
+
+### Pipeline
 
 ```text
-data/<resume>.pdf + data/cv.json
+INPUTS
+  resume.pdf  +  cv.json schema
         │
         ▼
-llamaindex_rag_competency_matrix_prepare.ipynb
+llamaindex_rag_competency_matrix_prepare.ipynb   (LlamaIndex / LlamaCloud)
         │
-        ├─► input/filled_cv.json
+        ├─► input/filled_cv.json      # schema filled from PDF
         ├─► input/filled_cv.md
         └─► output/filled_cv.html
         │
-        │   (+ paste vacancy into input/job_posting.txt)
+        │   + input/job_posting.txt   # you paste the vacancy
         ▼
-L7_job_application_crew.ipynb
+L7_job_application_crew.ipynb                    (CrewAI agents)
         │
         ├─► output/tailored_resume.md
-        ├─► output/tailored_resume.json
-        └─► output/tailored_resume.html
+        ├─► output/tailored_resume.json   # same shape as cv.json
+        └─► output/tailored_resume.html   # → PDF via Chrome headless if needed
 ```
 
 Kernel: **Python 3.11** (project venv: `.venv311`).
@@ -67,7 +77,7 @@ Optional prepare knobs (via `.env`):
 | `EMBED_MODEL_NAME` | `BAAI/bge-small-en-v1.5` | HF embed model |
 | `CURSOR_MODEL` | `composer-2.5` | Cursor agent model slug |
 
-`data/` is a symlink to the shared resume/templates folder (`cv.json`, PDFs, etc.).
+`data/` holds (or symlinks to) the **primary inputs**: your resume **PDF** and the **`cv.json` schema**, plus any extra PDFs/templates.
 
 ---
 
@@ -75,22 +85,22 @@ Optional prepare knobs (via `.env`):
 
 ### Step A — `llamaindex_rag_competency_matrix_prepare.ipynb`
 
-**Goal:** fill the CV schema from your PDF.
+**Goal:** take **resume PDF + `cv.json` schema** → fill the schema via LlamaIndex RAG / LlamaCloud Parse.
 
 **Set before / in the run cell:**
 
 | Parameter | Example | Role |
 |---|---|---|
-| `RESUME_FILE` | `data/Yuliia_Antonova_resume - data_ai.pdf` | source PDF |
-| `template_file` | `data/cv.json` | empty/structured CV schema |
+| `RESUME_FILE` | `data/<your_resume>.pdf` | **input:** source resume PDF |
+| `template_file` | `data/cv.json` | **input:** CV JSON schema/template |
 
 **Also needed in `.env`:** `LLAMA_CLOUD_API_KEY`, `CURSOR_API_KEY` (or switch `LLM_BACKEND=openai` + `OPENAI_API_KEY`).
 
-**You get:**
+**You get (intermediates for L7):**
 
 | Path | Content |
 |---|---|
-| `input/filled_cv.json` | structured CV (RAG-filled) |
+| `input/filled_cv.json` | `cv.json` schema filled from the PDF |
 | `input/filled_cv.md` | Markdown export for the crew |
 | `output/filled_cv.html` | Harvard-style HTML preview |
 | SQLite / ids in notebook | `cv_id`, `entities_id`, `job_id`, optional `matrix_id` for a follow-up prompts notebook (if you use it) |
@@ -101,7 +111,7 @@ Run top → bottom. After it finishes, spot-check `input/filled_cv.md` / HTML be
 
 ### Step B — put the vacancy text
 
-Edit:
+Second human input for the tailor step — edit:
 
 ```text
 input/job_posting.txt
@@ -113,15 +123,15 @@ Plain text of the job posting (no URL scrape in the current L7 setup — tools a
 
 ### Step C — `L7_job_application_crew.ipynb`
 
-**Goal:** tailor the resume to that vacancy with crewAI agents (researcher → profiler → resume strategist).
+**Goal:** tailor the (already structured) resume to that vacancy with CrewAI agents (researcher → profiler → resume strategist).
 
 **Needed in `.env`:** `OPENAI_API_KEY` (and `OPENAI_MODEL_NAME` if you want a non-default model).
 
-**Inputs read by the notebook:**
+**Reads prepare outputs + vacancy (not the raw PDF):**
 
 | Path | Role |
 |---|---|
-| `input/filled_cv.md` | `{resume_text}` |
+| `input/filled_cv.md` | `{resume_text}` — from PDF→schema fill |
 | `input/filled_cv.json` | `personal_writeup` via `cv_inputs.build_crew_inputs_from_cv` |
 | `input/job_posting.txt` | `{job_posting_text}` |
 
@@ -151,22 +161,23 @@ Interview prep task is currently commented out; if you re-enable it, it writes `
 
 ```text
 crew_job/
-  .env                 # secrets (gitignored)
-  .env.example         # template
-  input/               # what you feed the pipeline
-    filled_cv.json
+  .env / .env.example
+  data/                      # PRIMARY INPUTS (symlink ok)
+    <resume>.pdf             #   resume PDF
+    cv.json                  #   CV JSON schema/template
+  input/                     # prepare outputs + vacancy text
+    filled_cv.json           #   filled schema (from PDF)
     filled_cv.md
-    job_posting.txt
-    fake_resume.md     # sample / legacy
-  output/              # generated artifacts
+    job_posting.txt          #   vacancy (you edit)
+    fake_resume.md           #   sample / legacy
+  output/                    # final / preview artifacts
     filled_cv.html
     tailored_resume.md
-    tailored_resume.json
+    tailored_resume.json     # same shape as data/cv.json
     tailored_resume.html
-    ...
-  data/                # PDFs + cv.json template (symlink)
-  helper.py            # prepare: keys, LLM, embeddings
-  utils.py             # L7: OpenAI / Serper keys
+    tailored_resume.pdf      # optional: Chrome --print-to-pdf
+  helper.py                  # prepare: keys, LLM, embeddings
+  utils.py                   # L7: OpenAI / Serper keys
   cv_inputs.py
   md_to_cv_json.py
   render.py
@@ -178,6 +189,13 @@ Useful CLI (from project root, venv on):
 ```bash
 python render.py                              # input/filled_cv.json → output/filled_cv.html
 python render.py input/filled_cv.json output/preview.html
+
+# HTML → PDF
+cd output
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --no-pdf-header-footer \
+  --print-to-pdf="$PWD/tailored_resume.pdf" \
+  "file://$PWD/tailored_resume.html"
 ```
 
 ---
